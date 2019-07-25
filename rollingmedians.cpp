@@ -51,15 +51,15 @@ void addNumber(double d)
 
 std::string RollingMedians::getMedians(const std::string& input)
 {
-    std::istringstream sin(input);
-    std::ostringstream sout;
-    for (Token token = getNextToken(sin); token.type != Token::END; token = getNextToken(sin)) {
+    std::istringstream in(input);
+    std::ostringstream out;
+    for (Token token = getNextToken(in); token.type != Token::END; token = getNextToken(in)) {
         if (token.type == Token::NUMBER) {
             addNumber(token.value);
         }
         else if (token.type == Token::MEDIAN) {
-            sout << getMedian() << " ";
+            out << getMedian() << " ";
         }
     }
-    return sout.str();
+    return out.str();
 }

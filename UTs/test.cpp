@@ -3,5 +3,7 @@
 
 TEST(RollingMedian, test)
 {
-    EXPECT_EQ("4.0 5.0 5.5", RollingMedians().getMedians("3 5 m 8 m 6 m q"));
+    const std::string input = "3 5 m 8 m 6 m q";
+    const std::string expected = "4.0 5.0 5.5";
+    EXPECT_EQ(expected, RollingMedians().getMedians(input));
 }
