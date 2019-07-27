@@ -1,4 +1,4 @@
-#include "rollingmedians.h"
+#include "rollingmedian.h"
 #include <iostream>
 
 using namespace std;

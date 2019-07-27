@@ -1,4 +1,4 @@
-#include "rollingmedians.h"
+#include "../rollingmedian.h"
 #include "gtest/gtest.h"
 
 TEST(RollingMedian, test)

@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 
-include_directories(..)
+set(UT_PREFIX "ut_")
 
-add_executable(ut-${PROJECT_NAME} test.cpp ../rollingmedians.cpp)
-target_link_libraries(ut-${PROJECT_NAME} gtest gtest_main)
+add_executable(${UT_PREFIX}${PROJECT_NAME}
+    ../impl/multiskiplist.cpp
+    ../impl/rollingmedian.cpp
+
+    rollingmedian.cpp
+    multiskiplist.cpp
+)
+target_link_libraries(${UT_PREFIX}${PROJECT_NAME} gtest gtest_main)
