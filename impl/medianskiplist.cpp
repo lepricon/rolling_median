@@ -1,4 +1,4 @@
-#include "../multiskiplist.h"
+#include "../medianskiplist.h"
 #include <cstdint>
 #include <fstream>
 
@@ -43,30 +43,18 @@ uint32_t random()
 }
 } // namespace pcg32
 
-namespace  {
-double fabs(double x) {
-    *((reinterpret_cast<int *>(&x)) + 1) &= 0x7fffffff;
-    return x;
-}
-
-bool equal(double a, double b)
-{
-    constexpr static double EPSILON = 1e-10;
-    return fabs(a - b) <= ( (fabs(a) > fabs(b) ? fabs(b) : fabs(a)) * EPSILON);
-}
-} // namespace
-
-MultiSkipList::MultiSkipList()
-    : head{new Node(0, MAX_LEVEL)}
+MedianSkipList::MedianSkipList()
+    : head{new Node(0, MAX_LEVEL)}, median{head, 0}
 {
     len = 0;
     for (uint i = 0; i < head->level; i++) {
         head->forward[i] = nullptr;
     }
+    head->prev = nullptr;
     pcg32::seed();
 }
 
-MultiSkipList::~MultiSkipList()
+MedianSkipList::~MedianSkipList()
 {
     Node* p = head;
     while (p != nullptr) {
@@ -78,7 +66,7 @@ MultiSkipList::~MultiSkipList()
     len = 0;
 }
 
-void MultiSkipList::insert(double value)
+void MedianSkipList::insert(int value)
 {
     Node* update[MAX_LEVEL] = {nullptr};
     Node* cur = head;
@@ -92,8 +80,9 @@ void MultiSkipList::insert(double value)
     }
 
     auto next = update[0]->forward[0];
-    if (next != nullptr and equal(next->key, value)) {
+    if (next != nullptr and next->key == value) {
         next->repeated++;
+        updateMedian(value);
         return;
     }
 
@@ -102,15 +91,74 @@ void MultiSkipList::insert(double value)
         newNode->forward[i] = update[i]->forward[i];
         update[i]->forward[i] = newNode;
     }
+    newNode->prev = update[0];
+    if (newNode->forward[0] != nullptr) {
+        newNode->forward[0]->prev = newNode;
+    }
+    updateMedian(value);
 }
 
-uint MultiSkipList::randomLevel() const
+uint MedianSkipList::randomLevel() const
 {
     constexpr static double PROBABILITY = 0.5;
     uint l = 1;
     while (static_cast<double>(pcg32::random())/UINT32_MAX < PROBABILITY and l < MAX_LEVEL) {
         l++;
     }
-
     return l;
+}
+
+double MedianSkipList::getMedian()
+{
+    if (median.p == head) {
+        throw std::runtime_error("error: no input yet");
+    }
+
+    if (len % 2 == 0) {
+        if (median.index == median.p->repeated) {
+            return static_cast<double>(median.p->key + getNext(median.p)->key) / 2.0;
+        }
+        else {
+            return static_cast<double>(median.p->key + median.p->key) / 2.0;
+        }
+    }
+    else {
+        return median.p->key;
+    }
+}
+
+void MedianSkipList::updateMedian(int newValue)
+{
+    if (len == 1) {
+        median.p = getNext(head);
+        median.index = 1;
+        return;
+    }
+    if (newValue == median.p->key) {
+        if (len % 2 != 0) {
+            median.index++;
+        }
+    }
+    else if (newValue < median.p->key) {
+        if (len % 2 == 0) {
+            if (median.index == 1) {
+                median.p = median.p->prev;
+                median.index = median.p->repeated;
+            }
+            else {
+                median.index--;
+            }
+        }
+    }
+    else if (newValue > median.p->key) {
+        if (len % 2 != 0) {
+            if (median.index == median.p->repeated) {
+                median.p = getNext(median.p);
+                median.index = 1;
+            }
+            else {
+                median.index++;
+            }
+        }
+    }
 }

@@ -15,13 +15,16 @@ struct Token
         MEDIAN,
         END
     } type;
-    double value;
+    int value;
 };
 
 Token getNextToken(std::istringstream& ss)
 {
-    while (ss.peek() == DELIM_TOKEN) {
+    while (ss.good() and ss.peek() == DELIM_TOKEN) {
         ss.get();
+    }
+    if (not ss.good()) {
+        return {Token::END, 0};
     }
     char c = ss.peek();
     if (c == MEDIAN_TOKEN) {
@@ -31,22 +34,22 @@ Token getNextToken(std::istringstream& ss)
     else if (c == END_TOKEN) {
         return {Token::END, 0};
     }
-    double d;
+    int d;
     ss >> d;
     return {Token::NUMBER, d};
 }
 
-double getMedian()
-{
-    std::cout << "getMedian()" << std::endl;
-    return 0.0;
-}
-
-void addNumber(double d)
-{
-    std::cout << "addNumber(" << d << ")" << std::endl;
-}
-
+//// TODO: remove
+//std::ostream& operator<<(std::ostream& out, const MedianSkipList& list)
+//{
+//    const Node* cur = list.getNext(list.getHead());
+//    while (cur != nullptr) {
+//        out << cur->key << " ";
+//        cur = cur->forward[0];
+//    }
+//    out << "\n";
+//    return out;
+//}
 } // namespace
 
 std::string RollingMedians::getMedians(const std::string& input)
@@ -55,10 +58,10 @@ std::string RollingMedians::getMedians(const std::string& input)
     std::ostringstream out;
     for (Token token = getNextToken(in); token.type != Token::END; token = getNextToken(in)) {
         if (token.type == Token::NUMBER) {
-            addNumber(token.value);
+            skipList.insert(token.value);
         }
         else if (token.type == Token::MEDIAN) {
-            out << getMedian() << " ";
+            out << skipList.getMedian() << " ";
         }
     }
     return out.str();

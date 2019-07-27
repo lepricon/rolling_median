@@ -1,11 +1,11 @@
-#include "../multiskiplist.h"
+#include "../medianskiplist.h"
 
 #include <random>
 #include <gtest/gtest.h>
 
 TEST(MultiSkipListTest, should_increase_len_on_some_value)
 {
-    MultiSkipList list;
+    MedianSkipList list;
     EXPECT_EQ(0, list.size());
 
     list.insert(1.0);
@@ -14,7 +14,7 @@ TEST(MultiSkipListTest, should_increase_len_on_some_value)
 
 TEST(MultiSkipListTest, should_not_increase_len_on_same_value)
 {
-    MultiSkipList list;
+    MedianSkipList list;
     EXPECT_EQ(0, list.size());
 
     list.insert(1.0);
@@ -23,7 +23,7 @@ TEST(MultiSkipListTest, should_not_increase_len_on_same_value)
 
 TEST(MultiSkipListTest, should_increase_len_on_values)
 {
-    MultiSkipList list;
+    MedianSkipList list;
     EXPECT_EQ(0, list.size());
 
     list.insert(1.0);
@@ -42,7 +42,7 @@ TEST(MultiSkipListTest, should_handle_lots_of_random_inserts)
     std::random_device rd;
     std::uniform_int_distribution<int> dist(0, SIZE);
 
-    MultiSkipList list;
+    MedianSkipList list;
     EXPECT_EQ(0, list.size());
 
     for (std::size_t i = 0; i < SIZE; i++) {

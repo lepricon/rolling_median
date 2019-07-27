@@ -11,5 +11,5 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 add_executable(${PROJECT_NAME}
     main.cpp
     impl/rollingmedian.cpp
-    impl/multiskiplist.cpp
+    impl/medianskiplist.cpp
 )

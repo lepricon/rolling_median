@@ -7,46 +7,58 @@ const uint MAX_LEVEL = 10;
 
 struct Node
 {
-    Node(double key_, uint level_) : key(key_), repeated(1), level(level_)
+    Node(int key_, uint level_) : key(key_), repeated(1), level(level_)
     {
         for (uint i = 0; i < level_; i++) {
             forward[i] = nullptr;
         }
+        prev = nullptr;
     }
 
     ~Node()
     {
     }
 
-    double key;
+    int key;
     uint repeated;
     uint level;
     Node* forward[MAX_LEVEL];
+    Node* prev;
 };
 
-class MultiSkipList
+class MedianSkipList
 {
+struct Median
+{
+    const Node* p;
+    uint index; // starting from 1
+};
+
 public:
-    MultiSkipList();
-    ~MultiSkipList();
+    MedianSkipList();
+    ~MedianSkipList();
 
-    void insert(double value);
+    void insert(int value);
 
-    uint size() {
+    uint size() const {
         return len;
     }
 
-    const Node* getHead() {
+    double getMedian();
+
+    const Node* getHead() const {
         return this->head;
     }
 
-    const Node* getNext(const Node* n) {
+    const Node* getNext(const Node* n) const {
         return n->forward[0];
     }
 
 private:
     unsigned int randomLevel() const;
+    void updateMedian(int newValue);
 
     Node* head;
     uint len;
+    Median median;
 };
