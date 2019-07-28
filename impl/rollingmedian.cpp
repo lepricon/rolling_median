@@ -1,9 +1,8 @@
 #include "../rollingmedian.h"
-#include <sstream>
 #include <iostream>
 #include <iomanip>
 
-namespace  {
+namespace {
 const char DELIM_TOKEN{' '};
 const char MEDIAN_TOKEN{'m'};
 const char END_TOKEN{'q'};
