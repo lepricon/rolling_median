@@ -2,7 +2,7 @@
 
 using uint = unsigned int;
 namespace  {
-const uint MAX_LEVEL = 10;
+const uint MAX_LEVEL = 20;
 } // namespace
 
 struct Node

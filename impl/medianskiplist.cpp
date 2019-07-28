@@ -110,20 +110,20 @@ uint MedianSkipList::randomLevel() const
 
 double MedianSkipList::getMedian()
 {
-    if (median.p == head) {
+    if (len == 0) {
         throw std::runtime_error("error: no input yet");
     }
 
     if (len % 2 == 0) {
         if (median.index == median.p->repeated) {
-            return static_cast<double>(median.p->key + getNext(median.p)->key) / 2.0;
+            return static_cast<double>(median.p->key) / 2.0 + static_cast<double>(getNext(median.p)->key) / 2.0;
         }
         else {
-            return static_cast<double>(median.p->key + median.p->key) / 2.0;
+            return static_cast<double>(median.p->key) / 2.0 + static_cast<double>(median.p->key) / 2.0;
         }
     }
     else {
-        return median.p->key;
+        return static_cast<double>(median.p->key);
     }
 }
 

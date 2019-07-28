@@ -1,6 +1,7 @@
 #include "../rollingmedian.h"
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 
 namespace  {
 
@@ -38,18 +39,6 @@ Token getNextToken(std::istringstream& ss)
     ss >> d;
     return {Token::NUMBER, d};
 }
-
-//// TODO: remove
-//std::ostream& operator<<(std::ostream& out, const MedianSkipList& list)
-//{
-//    const Node* cur = list.getNext(list.getHead());
-//    while (cur != nullptr) {
-//        out << cur->key << " ";
-//        cur = cur->forward[0];
-//    }
-//    out << "\n";
-//    return out;
-//}
 } // namespace
 
 std::string RollingMedians::getMedians(const std::string& input)
@@ -61,7 +50,9 @@ std::string RollingMedians::getMedians(const std::string& input)
             skipList.insert(token.value);
         }
         else if (token.type == Token::MEDIAN) {
-            out << skipList.getMedian() << " ";
+            if (skipList.size() > 0) {
+                out << std::setprecision(10) << skipList.getMedian() << " ";
+            }
         }
     }
     return out.str();

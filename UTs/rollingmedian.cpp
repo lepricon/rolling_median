@@ -1,15 +1,6 @@
 #include "../rollingmedian.h"
 #include "gtest/gtest.h"
-#include<vector>
-
-TEST(RollingMedian, no_input)
-{
-    EXPECT_NO_THROW(RollingMedians().getMedians(""));
-    EXPECT_NO_THROW(RollingMedians().getMedians("q"));
-    EXPECT_THROW(RollingMedians().getMedians("m"), std::runtime_error);
-    EXPECT_THROW(RollingMedians().getMedians("m q"), std::runtime_error);
-}
-
+#include <vector>
 
 void verifyResult(const std::string& medians, const std::vector<double>& expected)
 {
@@ -22,6 +13,7 @@ void verifyResult(const std::string& medians, const std::vector<double>& expecte
         i++;
         in >> d;
     }
+    EXPECT_EQ(i, expected.size());
 }
 
 using Params = std::pair<const std::string, const std::vector<double>>;
@@ -36,10 +28,17 @@ TEST_P(RollingMedianTestSuite, test)
 
 INSTANTIATE_TEST_SUITE_P(RollingMedianTestSuiteInstance, RollingMedianTestSuite, ::testing::Values(
     Params{"3 5 m 8 m 6 m q", {4, 5, 5.5}},
+    Params{"", {}},
+    Params{"m", {}},
+    Params{"q", {}},
+    Params{"m q", {}},
+    Params{"3 5 8 6 q", {}},
     Params{"5 m q", {5}},
     Params{"-3 5 -2 m q", {-2}},
     Params{"5 5 5 5 3 3 3 3 m q", {4}},
     Params{"5 5 3 m q", {5}},
-    Params{"9 8 7 6 5 4 3 2 1 m q", {5}},
-    Params{"-2 -3 -4 -5 -6 -7 m q", {-4.5}}
+    Params{"0 m m m q", {0, 0, 0}},
+    Params{"-2 m 2 m -4 m 4 q", {-2, 0, -2}},
+    Params{"1 m 1 1 1 1 1 1 m 1 q", {1, 1}},
+    Params{"m 2147483647 m -2147483648 m q", {2147483647, -0.5}}
 ));

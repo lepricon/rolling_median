@@ -38,7 +38,7 @@ TEST(MultiSkipListTest, should_increase_len_on_values)
 
 TEST(MultiSkipListTest, should_handle_lots_of_random_inserts)
 {
-    const std::size_t SIZE = 500 * 1000;
+    const std::size_t SIZE = 1000 * 1000;
     std::random_device rd;
     std::uniform_int_distribution<int> dist(0, SIZE);
 
@@ -56,7 +56,7 @@ TEST(MultiSkipListTest, should_handle_lots_of_random_inserts)
 
 TEST(MultiSkipListTest, set_should_handle_lots_of_random_inserts)
 {
-    const std::size_t SIZE = 500 * 1000;
+    const std::size_t SIZE = 1000 * 1000;
     std::random_device rd;
     std::uniform_int_distribution<int> dist(0, SIZE);
 
