@@ -29,10 +29,12 @@ All of the above combined gives average performance of O(ln n).
 ### Compilation
 
 Pull it from GitHub somewhere:
-* $ mkdir /path/to/future/code
-* $ git init
-* $ git pull https://github.com/lepricon/rolling_median.git
-* $ git submodule update --init --recursive
+``` shell
+$ mkdir /path/to/future/code
+$ git init
+$ git pull https://github.com/lepricon/rolling_median.git
+$ git submodule update --init --recursive
+```
 
 Since it is cmake project, just several standard steps required:
 
