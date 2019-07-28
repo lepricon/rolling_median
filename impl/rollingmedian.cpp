@@ -40,7 +40,7 @@ Token getNextToken(std::istringstream& ss)
 }
 } // namespace
 
-std::string RollingMedians::getMedians(const std::string& input)
+std::string RollingMedians::getMedians(const std::string& input) noexcept
 {
     std::istringstream in(input);
     std::ostringstream out;

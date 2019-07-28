@@ -4,7 +4,7 @@
 MedianSkipList::MedianSkipList()
     : head{new Node(0, MAX_LEVEL)}, median{head, 0}
 {
-    len = 0;
+   len = 0;
     for (uint i = 0; i < head->level; i++) {
         head->forward[i] = nullptr;
     }

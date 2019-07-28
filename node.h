@@ -9,7 +9,7 @@ struct Node
 {
     Node(int key_, uint level_) : key(key_), repeated(1), level(level_)
     {
-        for (uint i = 0; i < level_; i++) {
+        for (uint i = 0; i < level; i++) {
             forward[i] = nullptr;
         }
         prev = nullptr;

@@ -6,7 +6,7 @@
 class RollingMedians
 {
 public:
-    std::string getMedians(const std::string& in);
+    std::string getMedians(const std::string& in) noexcept;
 
 private:
     MedianSkipList skipList;
