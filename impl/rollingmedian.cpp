@@ -4,7 +4,6 @@
 #include <iomanip>
 
 namespace  {
-
 const char DELIM_TOKEN{' '};
 const char MEDIAN_TOKEN{'m'};
 const char END_TOKEN{'q'};
@@ -45,15 +44,21 @@ std::string RollingMedians::getMedians(const std::string& input)
 {
     std::istringstream in(input);
     std::ostringstream out;
-    for (Token token = getNextToken(in); token.type != Token::END; token = getNextToken(in)) {
-        if (token.type == Token::NUMBER) {
-            skipList.insert(token.value);
-        }
-        else if (token.type == Token::MEDIAN) {
-            if (skipList.size() > 0) {
-                out << std::setprecision(10) << skipList.getMedian() << " ";
+    try {
+        for (Token token = getNextToken(in); token.type != Token::END; token = getNextToken(in)) {
+            if (token.type == Token::NUMBER) {
+                skipList.insert(token.value);
+            }
+            else if (token.type == Token::MEDIAN) {
+                if (skipList.size() > 0) {
+                    out << std::setprecision(10) << skipList.getMedian() << " ";
+                }
             }
         }
+    } catch (const std::exception& e) {
+        std::cerr << "Error: unable to calculate further: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Error: unknown error." << std::endl;
     }
     return out.str();
 }

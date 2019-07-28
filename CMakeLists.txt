@@ -12,4 +12,5 @@ add_executable(${PROJECT_NAME}
     main.cpp
     impl/rollingmedian.cpp
     impl/medianskiplist.cpp
+    impl/chunkallocator.cpp
 )
